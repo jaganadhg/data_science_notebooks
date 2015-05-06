@@ -1,0 +1,904 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass{article}
+
+    
+    
+    \usepackage{graphicx} % Used to insert images
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{color} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    
+
+    
+    
+    \definecolor{orange}{cmyk}{0,0.4,0.8,0.2}
+    \definecolor{darkorange}{rgb}{.71,0.21,0.01}
+    \definecolor{darkgreen}{rgb}{.12,.54,.11}
+    \definecolor{myteal}{rgb}{.26, .44, .56}
+    \definecolor{gray}{gray}{0.45}
+    \definecolor{lightgray}{gray}{.95}
+    \definecolor{mediumgray}{gray}{.8}
+    \definecolor{inputbackground}{rgb}{.95, .95, .85}
+    \definecolor{outputbackground}{rgb}{.95, .95, .95}
+    \definecolor{traceback}{rgb}{1, .95, .95}
+    % ansi colors
+    \definecolor{red}{rgb}{.6,0,0}
+    \definecolor{green}{rgb}{0,.65,0}
+    \definecolor{brown}{rgb}{0.6,0.6,0}
+    \definecolor{blue}{rgb}{0,.145,.698}
+    \definecolor{purple}{rgb}{.698,.145,.698}
+    \definecolor{cyan}{rgb}{0,.698,.698}
+    \definecolor{lightgray}{gray}{0.5}
+    
+    % bright ansi colors
+    \definecolor{darkgray}{gray}{0.25}
+    \definecolor{lightred}{rgb}{1.0,0.39,0.28}
+    \definecolor{lightgreen}{rgb}{0.48,0.99,0.0}
+    \definecolor{lightblue}{rgb}{0.53,0.81,0.92}
+    \definecolor{lightpurple}{rgb}{0.87,0.63,0.87}
+    \definecolor{lightcyan}{rgb}{0.5,1.0,0.83}
+    
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{scikit\_learn\_feature\_selection}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=blue,
+      linkcolor=darkorange,
+      citecolor=darkgreen,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsection{Feature Selection with scikit-learn (sklearn)}
+
+Jaganadh Gopinadhan http://jaganadhg.in
+
+    Feature extraction is one of the essential setp in Data Science/Machine
+Learning and Data Mining excercises. Effective use of feature extraction
+techniques helps a Data Scientist to build the bset model. This note is
+intent to give a brief over view on feature selection with scikit-learn
+(sklearn). The result of a feature selection excercise is to find the
+most important and descriptive feature from a given data.
+
+Note
+
+The code is for getting familarity with the utilities.
+
+    \paragraph{Find K-Best features for classification and regression}
+
+The first methos which we are going to expore is the selecting the
+K-best featres using the SelectKBest utility in sklearn. We will use the
+famous IRIS two class data-set.
+
+The first example we are going to look is feature selection for
+classification.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{SelectKBest}\PY{p}{,} \PY{n}{f\PYZus{}classif}
+         
+         \PY{k}{def} \PY{n+nf}{select\PYZus{}kbest\PYZus{}clf}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{p}{,} \PY{n}{target}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Selecting K\PYZhy{}Best features for classification}
+         \PY{l+s+sd}{    :param data\PYZus{}frame: A pandas dataFrame with the training data}
+         \PY{l+s+sd}{    :param target: target variable name in DataFrame}
+         \PY{l+s+sd}{    :param k: desired number of features from the data}
+         \PY{l+s+sd}{    :returns feature\PYZus{}scores: scores for each feature in the data as }
+         \PY{l+s+sd}{    pandas DataFrame}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{n}{feat\PYZus{}selector} \PY{o}{=} \PY{n}{SelectKBest}\PY{p}{(}\PY{n}{f\PYZus{}classif}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{n}{k}\PY{p}{)}
+             \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{data\PYZus{}frame}\PY{p}{[}\PY{n}{target}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{feat\PYZus{}scores} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{scores\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{pvalues\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Support}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{get\PYZus{}support}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Attribute}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+             
+             \PY{k}{return} \PY{n}{feat\PYZus{}scores}
+         
+         \PY{n}{iris\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/iris.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{select\PYZus{}kbest\PYZus{}clf}\PY{p}{(}\PY{n}{iris\PYZus{}data}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{Class}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{kbest\PYZus{}feat}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{p}{[}\PY{n+nb+bp}{False}\PY{p}{,} \PY{n+nb+bp}{False}\PY{p}{]}\PY{p}{)}
+         \PY{n}{kbest\PYZus{}feat}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}52}]:}        F Score       P Value Support     Attribute
+         2  2498.618817  1.504801e-71    True  petal-length
+         3  1830.624469  3.230375e-65    True   petal-width
+         0   236.735022  6.892546e-28   False  sepal-length
+         1    41.607003  4.246355e-09   False   sepal-width
+         
+         [4 rows x 4 columns]
+\end{Verbatim}
+        
+    \subparagraph{What just happened ?}
+
+The select\_kbest function accepts a pandas DataFrame, and target
+variable name and k as parameters. First we create a SelectKBest object
+with estimator as f\_classif (because we are working with a
+classification problem). The we are fitting the model with the data.
+Once we fit the model information on feature importnace will be
+available in the fitted model. The Annova F score of the features are
+accesible thorugh the scores\_ attributes and the p-values are avaiale
+thorugh the pvalues\_. The get\_support function will return a bool
+value if a feature is selected.
+
+Now the question is how can I determine which feature is selected? The
+easy way is that if the Support is Tru those features are are good. The
+higher the F Score and the lesser the p-values the feature is best.
+
+Let's examine the results we obtained from the iris data. The attributes
+`petal-length' and `petal-width' got higher F Score and lesser P Value;
+and Support is true. So those feature are important comapred to other
+features. To understand the real-power of this methos you have to check
+this with a data with more diamensions.
+
+\subparagraph{Next \ldots{}.}
+
+In the next example we can try to see how we can apply this technique to
+a regression problem. Basically there is not much difference in the
+code. We will change the estimator to f\_regression. We can try this
+with the Boston house price dataset.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{SelectKBest}\PY{p}{,} \PY{n}{f\PYZus{}regression}
+         
+         
+         \PY{k}{def} \PY{n+nf}{select\PYZus{}kbest\PYZus{}reg}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{p}{,} \PY{n}{target}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Selecting K\PYZhy{}Best features for regression}
+         \PY{l+s+sd}{    :param data\PYZus{}frame: A pandas dataFrame with the training data}
+         \PY{l+s+sd}{    :param target: target variable name in DataFrame}
+         \PY{l+s+sd}{    :param k: desired number of features from the data}
+         \PY{l+s+sd}{    :returns feature\PYZus{}scores: scores for each feature in the data as }
+         \PY{l+s+sd}{    pandas DataFrame}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{n}{feat\PYZus{}selector} \PY{o}{=} \PY{n}{SelectKBest}\PY{p}{(}\PY{n}{f\PYZus{}regression}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{n}{k}\PY{p}{)}
+             \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{data\PYZus{}frame}\PY{p}{[}\PY{n}{target}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{feat\PYZus{}scores} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{scores\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{pvalues\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Support}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{get\PYZus{}support}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Attribute}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+             
+             \PY{k}{return} \PY{n}{feat\PYZus{}scores}
+         
+         \PY{n}{boston} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/boston.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{select\PYZus{}kbest\PYZus{}reg}\PY{p}{(}\PY{n}{boston}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{price}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+         
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{kbest\PYZus{}feat}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{p}{[}\PY{n+nb+bp}{False}\PY{p}{,} \PY{n+nb+bp}{False}\PY{p}{]}\PY{p}{)}
+         \PY{n}{kbest\PYZus{}feat}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}53}]:}        F Score       P Value Support Attribute
+         12  601.617871  5.081103e-88    True        12
+         5   471.846740  2.487229e-74    True         5
+         10  175.105543  1.609509e-34    True        10
+         2   153.954883  4.900260e-31    True         2
+         9   141.761357  5.637734e-29    True         9
+         4   112.591480  7.065042e-24   False         4
+         0    88.151242  2.083550e-19   False         0
+         8    85.914278  5.465933e-19   False         8
+         6    83.477459  1.569982e-18   False         6
+         1    75.257642  5.713584e-17   False         1
+         11   63.054229  1.318113e-14   False        11
+         7    33.579570  1.206612e-08   False         7
+         3    15.971512  7.390623e-05   False         3
+         
+         [13 rows x 4 columns]
+\end{Verbatim}
+        
+    \subparagraph{Select features according to a percentile of the highest
+scores.}
+
+The next trick we are going to explore is `SelectPercentile' based
+feature selection. This technique will return the features base on
+percentile of the highest score. Let's see it in action with Boston
+data.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{SelectPercentile}\PY{p}{,} \PY{n}{f\PYZus{}regression}
+         
+         
+         \PY{k}{def} \PY{n+nf}{select\PYZus{}percentile}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{p}{,} \PY{n}{target}\PY{p}{,} \PY{n}{percentile}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Percentile based feature selection for regression}
+         \PY{l+s+sd}{    :param data\PYZus{}frame: A pandas dataFrame with the training data}
+         \PY{l+s+sd}{    :param target: target variable name in DataFrame}
+         \PY{l+s+sd}{    :param k: desired number of features from the data}
+         \PY{l+s+sd}{    :returns feature\PYZus{}scores: scores for each feature in the data as }
+         \PY{l+s+sd}{    pandas DataFrame}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{n}{feat\PYZus{}selector} \PY{o}{=} \PY{n}{SelectPercentile}\PY{p}{(}\PY{n}{f\PYZus{}regression}\PY{p}{,} \PY{n}{percentile}\PY{o}{=}\PY{n}{percentile}\PY{p}{)}
+             \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{data\PYZus{}frame}\PY{p}{[}\PY{n}{target}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{feat\PYZus{}scores} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{scores\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{pvalues\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Support}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{get\PYZus{}support}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Attribute}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+             
+             \PY{k}{return} \PY{n}{feat\PYZus{}scores}
+         
+         \PY{n}{boston} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/boston.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{select\PYZus{}percentile}\PY{p}{(}\PY{n}{boston}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{price}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{n}{percentile}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{)}
+         
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{kbest\PYZus{}feat}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{p}{[}\PY{n+nb+bp}{False}\PY{p}{,} \PY{n+nb+bp}{False}\PY{p}{]}\PY{p}{)}
+         \PY{n}{kbest\PYZus{}feat}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}54}]:}        F Score       P Value Support Attribute
+         12  601.617871  5.081103e-88    True        12
+         5   471.846740  2.487229e-74    True         5
+         10  175.105543  1.609509e-34    True        10
+         2   153.954883  4.900260e-31    True         2
+         9   141.761357  5.637734e-29    True         9
+         4   112.591480  7.065042e-24    True         4
+         0    88.151242  2.083550e-19   False         0
+         8    85.914278  5.465933e-19   False         8
+         6    83.477459  1.569982e-18   False         6
+         1    75.257642  5.713584e-17   False         1
+         11   63.054229  1.318113e-14   False        11
+         7    33.579570  1.206612e-08   False         7
+         3    15.971512  7.390623e-05   False         3
+         
+         [13 rows x 4 columns]
+\end{Verbatim}
+        
+    \subparagraph{Univarite feature selection}
+
+The next method we are going to expore is univarite feature selection.
+We will use the same Boston data for this example also.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}55}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{GenericUnivariateSelect}\PY{p}{,} \PY{n}{f\PYZus{}regression}
+         
+         
+         \PY{k}{def} \PY{n+nf}{select\PYZus{}univarite}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{p}{,} \PY{n}{target}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{fdr}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Percentile based feature selection for regression}
+         \PY{l+s+sd}{    :param data\PYZus{}frame: A pandas dataFrame with the training data}
+         \PY{l+s+sd}{    :param target: target variable name in DataFrame}
+         \PY{l+s+sd}{    :param k: desired number of features from the data}
+         \PY{l+s+sd}{    :returns feature\PYZus{}scores: scores for each feature in the data as }
+         \PY{l+s+sd}{    pandas DataFrame}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{n}{feat\PYZus{}selector} \PY{o}{=} \PY{n}{GenericUnivariateSelect}\PY{p}{(}\PY{n}{f\PYZus{}regression}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{n}{mode}\PY{p}{)}
+             \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{data\PYZus{}frame}\PY{p}{[}\PY{n}{target}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{feat\PYZus{}scores} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{scores\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{pvalues\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Support}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{get\PYZus{}support}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Attribute}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+             
+             \PY{k}{return} \PY{n}{feat\PYZus{}scores}
+         
+         \PY{n}{boston} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/boston.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{select\PYZus{}univarite}\PY{p}{(}\PY{n}{boston}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{price}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{fpr}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{kbest\PYZus{}feat}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{p}{[}\PY{n+nb+bp}{False}\PY{p}{,} \PY{n+nb+bp}{False}\PY{p}{]}\PY{p}{)}
+         \PY{n}{kbest\PYZus{}feat}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}55}]:}        F Score       P Value Support Attribute
+         12  601.617871  5.081103e-88    True        12
+         5   471.846740  2.487229e-74    True         5
+         10  175.105543  1.609509e-34    True        10
+         2   153.954883  4.900260e-31    True         2
+         9   141.761357  5.637734e-29    True         9
+         4   112.591480  7.065042e-24    True         4
+         0    88.151242  2.083550e-19    True         0
+         8    85.914278  5.465933e-19    True         8
+         6    83.477459  1.569982e-18    True         6
+         1    75.257642  5.713584e-17    True         1
+         11   63.054229  1.318113e-14    True        11
+         7    33.579570  1.206612e-08    True         7
+         3    15.971512  7.390623e-05   False         3
+         
+         [13 rows x 4 columns]
+\end{Verbatim}
+        
+    In the example if we change the mode to `fdr' the algo will find the
+score based on false discovery rate, `fpr' false positive rate, `fwr'
+family based error, `percentile' and `kbest' will do Percentile and
+KBest based scoring.
+
+\subparagraph{Family-wise error rate}
+
+The next method we are going to expore is Family-wise error rate. We
+will use the same Boston data for this example also.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}56}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{SelectFwe}\PY{p}{,} \PY{n}{f\PYZus{}regression}
+         
+         
+         \PY{k}{def} \PY{n+nf}{select\PYZus{}univarite}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{p}{,} \PY{n}{target}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Percentile based feature selection for regression}
+         \PY{l+s+sd}{    :param data\PYZus{}frame: A pandas dataFrame with the training data}
+         \PY{l+s+sd}{    :param target: target variable name in DataFrame}
+         \PY{l+s+sd}{    :param k: desired number of features from the data}
+         \PY{l+s+sd}{    :returns feature\PYZus{}scores: scores for each feature in the data as }
+         \PY{l+s+sd}{    pandas DataFrame}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{n}{feat\PYZus{}selector} \PY{o}{=} \PY{n}{SelectFwe}\PY{p}{(}\PY{n}{f\PYZus{}regression}\PY{p}{)}
+             \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{data\PYZus{}frame}\PY{p}{[}\PY{n}{target}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{feat\PYZus{}scores} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{scores\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{pvalues\PYZus{}}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Support}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{feat\PYZus{}selector}\PY{o}{.}\PY{n}{get\PYZus{}support}\PY{p}{(}\PY{p}{)}
+             \PY{n}{feat\PYZus{}scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Attribute}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+             
+             \PY{k}{return} \PY{n}{feat\PYZus{}scores}
+         
+         \PY{n}{boston} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/boston.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{select\PYZus{}univarite}\PY{p}{(}\PY{n}{boston}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{price}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{kbest\PYZus{}feat} \PY{o}{=} \PY{n}{kbest\PYZus{}feat}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{F Score}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{P Value}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{p}{[}\PY{n+nb+bp}{False}\PY{p}{,} \PY{n+nb+bp}{False}\PY{p}{]}\PY{p}{)}
+         \PY{n}{kbest\PYZus{}feat}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}56}]:}        F Score       P Value Support Attribute
+         12  601.617871  5.081103e-88    True        12
+         5   471.846740  2.487229e-74    True         5
+         10  175.105543  1.609509e-34    True        10
+         2   153.954883  4.900260e-31    True         2
+         9   141.761357  5.637734e-29    True         9
+         4   112.591480  7.065042e-24    True         4
+         0    88.151242  2.083550e-19    True         0
+         8    85.914278  5.465933e-19    True         8
+         6    83.477459  1.569982e-18    True         6
+         1    75.257642  5.713584e-17    True         1
+         11   63.054229  1.318113e-14    True        11
+         7    33.579570  1.206612e-08    True         7
+         3    15.971512  7.390623e-05    True         3
+         
+         [13 rows x 4 columns]
+\end{Verbatim}
+        
+    \subparagraph{Recursive Feature Elimination}
+
+Recursive Feature Elimination RFE, utilises an external estimator to
+estimate the weight of features. The goal of this methos is to select
+features by recorsively considering smaller and smaller sets.
+
+Let's examine this feature through an example. The external estimator
+which we are going to use is Support Vector Machine Regression (SVR)
+from sklearn.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+        
+        \PY{k+kn}{from} \PY{n+nn}{sklearn.feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{RFE}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn.svm} \PY{k+kn}{import} \PY{n}{SVR}
+        
+        \PY{k}{def} \PY{n+nf}{ref\PYZus{}feature\PYZus{}select}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{p}{,}\PY{n}{target\PYZus{}name}\PY{p}{,} \PY{n}{n\PYZus{}feats}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    :param data\PYZus{}frame: a apndas DataFrame containing the data}
+        \PY{l+s+sd}{    :param target\PYZus{}name: Header of the target variable name }
+        \PY{l+s+sd}{    :param n\PYZus{}feats: Number of features to be selected}
+        \PY{l+s+sd}{    :returns scored: pandas DataFrame containing feature scoring}
+        \PY{l+s+sd}{    Identify the number of features based Recursive Feature Elimination}
+        \PY{l+s+sd}{    Cross Validated method in scikit\PYZhy{}learn.}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{estimator} \PY{o}{=} \PY{n}{SVR}\PY{p}{(}\PY{n}{kernel}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{linear}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{selector} \PY{o}{=} \PY{n}{RFE}\PY{p}{(}\PY{n}{estimator}\PY{p}{,} \PY{n}{step} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}
+            \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{selector}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target\PYZus{}name}\PY{p}{,}\PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}\PYZbs{}
+            \PY{n}{data\PYZus{}frame}\PY{p}{[}\PY{n}{target\PYZus{}name}\PY{p}{]}\PY{p}{)}
+        
+            \PY{n}{scores} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+            \PY{n}{scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Attribute Name}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target\PYZus{}name}\PY{p}{,}\PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+            \PY{n}{scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Ranking}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{selector}\PY{o}{.}\PY{n}{ranking\PYZus{}}
+            \PY{n}{scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Support}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{selector}\PY{o}{.}\PY{n}{support\PYZus{}}
+        
+            \PY{k}{return} \PY{n}{scores}
+        
+        \PY{n}{boston} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/boston.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{n}{features} \PY{o}{=} \PY{n}{ref\PYZus{}feature\PYZus{}select}\PY{p}{(}\PY{n}{boston}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{price}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{n}{features} \PY{o}{=} \PY{n}{features}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Ranking}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{p}{[}\PY{n+nb+bp}{False}\PY{p}{]}\PY{p}{)}
+        \PY{n}{features}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}3}]:}    Attribute Name  Ranking Support
+        9               9        8   False
+        8               8        7   False
+        11             11        6   False
+        6               6        5   False
+        1               1        4   False
+        2               2        3   False
+        0               0        2   False
+        12             12        1    True
+        10             10        1    True
+        7               7        1    True
+        5               5        1    True
+        4               4        1    True
+        3               3        1    True
+        
+        [13 rows x 3 columns]
+\end{Verbatim}
+        
+    \subparagraph{There is more \ldots{}.}
+
+The RFE has another varient in sklearn called Recuresive Feature
+Elimination Cross Validated (RFECV). The difference is that the training
+data passed to the estimator will be split into cross validation set.
+Then based on the cross validation steps the estimator fits model and
+selects the best model to assign the feature socre.
+
+Let's see the code \ldots{}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+        
+        \PY{k+kn}{from} \PY{n+nn}{sklearn.feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{RFECV}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn.svm} \PY{k+kn}{import} \PY{n}{SVR}
+        
+        \PY{k}{def} \PY{n+nf}{refcv\PYZus{}feature\PYZus{}select}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{p}{,}\PY{n}{target\PYZus{}name}\PY{p}{,}\PY{n}{n\PYZus{}feats}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    :param data\PYZus{}frame: a apndas DataFrame containing the data}
+        \PY{l+s+sd}{    :param target\PYZus{}name: Header of the target variable name }
+        \PY{l+s+sd}{    :param n\PYZus{}feats: Number of features to be selected}
+        \PY{l+s+sd}{    :returns scored: pandas DataFrame containing feature scoring}
+        \PY{l+s+sd}{    Identify the number of features based Recursive Feature Elimination}
+        \PY{l+s+sd}{    Cross Validated method in scikit\PYZhy{}learn.}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{estimator} \PY{o}{=} \PY{n}{SVR}\PY{p}{(}\PY{n}{kernel}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{linear}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{selector} \PY{o}{=} \PY{n}{RFECV}\PY{p}{(}\PY{n}{estimator}\PY{p}{,} \PY{n}{step} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{cv} \PY{o}{=} \PY{l+m+mi}{3}\PY{p}{)}
+            \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{selector}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target\PYZus{}name}\PY{p}{,}\PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}\PYZbs{}
+            \PY{n}{data\PYZus{}frame}\PY{p}{[}\PY{n}{target\PYZus{}name}\PY{p}{]}\PY{p}{)}
+        
+            \PY{n}{scores} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+            \PY{n}{scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Attribute Name}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{target\PYZus{}name}\PY{p}{,}\PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+            \PY{n}{scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Ranking}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{selector}\PY{o}{.}\PY{n}{ranking\PYZus{}}
+            \PY{n}{scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Support}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{selector}\PY{o}{.}\PY{n}{support\PYZus{}}
+        
+            \PY{k}{return} \PY{n}{scores}
+        
+        
+        \PY{n}{boston} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/boston.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{n}{features} \PY{o}{=} \PY{n}{refcv\PYZus{}feature\PYZus{}select}\PY{p}{(}\PY{n}{boston}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{price}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{n}{features} \PY{o}{=} \PY{n}{features}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Ranking}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{p}{[}\PY{n+nb+bp}{False}\PY{p}{]}\PY{p}{)}
+        \PY{n}{features}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}2}]:}    Attribute Name  Ranking Support
+        9               9        4   False
+        8               8        3   False
+        11             11        2   False
+        12             12        1    True
+        10             10        1    True
+        7               7        1    True
+        6               6        1    True
+        5               5        1    True
+        4               4        1    True
+        3               3        1    True
+        2               2        1    True
+        1               1        1    True
+        0               0        1    True
+        
+        [13 rows x 3 columns]
+\end{Verbatim}
+        
+    \subparagraph{Variance threshold based feature selection (for
+un-supervised) learning}
+
+So far we have examined feature selection for supervised learning such
+as classification and regression. What about un-supervised feature
+selection? The variance threshols based feature slection utility in
+sklearn comes handy here. This method will remove all low variance
+features and the threshold for this can be configured too.
+
+Let's try this in the Boston data !
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+        
+        \PY{k+kn}{from} \PY{n+nn}{sklearn.feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{VarianceThreshold}
+        
+        
+        \PY{k}{def} \PY{n+nf}{var\PYZus{}thr\PYZus{}feat\PYZus{}select}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    Variance threshold based feature selection}
+        \PY{l+s+sd}{    :param data\PYZus{}frame: a pandas data frame with only X}
+        \PY{l+s+sd}{    :returns scores: a pandas data frame with feature scores.}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            
+            \PY{n}{varthr} \PY{o}{=} \PY{n}{VarianceThreshold}\PY{p}{(}\PY{p}{)}
+            \PY{n}{varthr}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{p}{)}
+            
+            \PY{n}{scores} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+            \PY{n}{scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Attribute Name}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}frame}\PY{o}{.}\PY{n}{columns}
+            \PY{n}{scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Variance}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{varthr}\PY{o}{.}\PY{n}{variances\PYZus{}}
+            \PY{n}{scores}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Support}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{varthr}\PY{o}{.}\PY{n}{get\PYZus{}support}\PY{p}{(}\PY{p}{)}
+            
+            \PY{k}{return} \PY{n}{scores}
+        
+        \PY{n}{boston} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/boston.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{n}{features} \PY{o}{=} \PY{n}{var\PYZus{}thr\PYZus{}feat\PYZus{}select}\PY{p}{(}\PY{n}{boston}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{price}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+        
+        \PY{n}{features} \PY{o}{=} \PY{n}{features}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Variance}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{p}{[}\PY{n+nb+bp}{False}\PY{p}{]}\PY{p}{)}
+        \PY{n}{features}
+            
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0.14.1
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        ImportError                               Traceback (most recent call last)
+
+        <ipython-input-5-9e55a9383b76> in <module>()
+          3 import pandas as pd
+          4 
+    ----> 5 from sklearn.feature\_selection import VarianceThreshold
+          6 
+          7 
+
+
+        ImportError: cannot import name VarianceThreshold
+
+    \end{Verbatim}
+
+    \paragraph{L1 based feature selection}
+
+Another supervised method for feature selection is L1 based methods. The
+estimators used for regression is Lasso, for logistic regression
+LogisticRegression and for classification LinierSVC. Unlike the previous
+methods it will poduce a new data set with selcted features not the
+feature scores.
+
+Let's examine this with IRIS data.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c}{\PYZsh{}This example is taken from sklearn document}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn.svm} \PY{k+kn}{import} \PY{n}{LinearSVC}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn.datasets} \PY{k+kn}{import} \PY{n}{load\PYZus{}iris}
+        \PY{n}{iris} \PY{o}{=} \PY{n}{load\PYZus{}iris}\PY{p}{(}\PY{p}{)}
+        \PY{n}{X}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{n}{iris}\PY{o}{.}\PY{n}{data}\PY{p}{,} \PY{n}{iris}\PY{o}{.}\PY{n}{target}
+        \PY{k}{print} \PY{n}{X}\PY{o}{.}\PY{n}{shape}
+        \PY{n}{X\PYZus{}new} \PY{o}{=} \PY{n}{LinearSVC}\PY{p}{(}\PY{n}{C}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{,} \PY{n}{penalty}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{l1}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{n}{dual}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{)}
+        \PY{k}{print} \PY{n}{X\PYZus{}new}\PY{o}{.}\PY{n}{shape}
+        
+        \PY{k}{print} \PY{n}{X}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+        \PY{k}{print} \PY{n}{X\PYZus{}new}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(150, 4)
+(150, 3)
+[ 5.1  3.5  1.4  0.2]
+[ 5.1  3.5  1.4]
+    \end{Verbatim}
+
+    If we closely look in to the resulting data set, we can see that the
+last feature is eliminated after the L1 process.
+
+\paragraph{Tree and Ensemble based feature importance}
+
+We can find the feature importance based on Tree and Ensemble
+classifiers available in sklearn. The ExtraTreesClassifier,
+GradientBoostingClassifier, RandomForestClassifier, and
+AdaBoostClassifier from ensemble and DecisionTreeClassifier from tree
+can be used for this.
+
+Back to some code with IRIS again !!!
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+         \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+         \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k+kn}{as} \PY{n+nn}{np}
+         
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.ensemble} \PY{k+kn}{import} \PY{n}{ExtraTreesClassifier}\PY{p}{,} \PY{n}{GradientBoostingClassifier}\PY{p}{,} \PYZbs{}
+         \PY{n}{RandomForestClassifier}\PY{p}{,} \PY{n}{AdaBoostClassifier}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.tree} \PY{k+kn}{import} \PY{n}{DecisionTreeClassifier}
+         
+         \PY{k+kn}{import} \PY{n+nn}{matplotlib.pyplot} \PY{k+kn}{as} \PY{n+nn}{plt}
+         
+         \PY{k}{class} \PY{n+nc}{CalculateFeatureImportance}\PY{p}{(}\PY{n+nb}{object}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Calculate the feature importance from a given data set using ensemble and }
+         \PY{l+s+sd}{    tree classifiers.}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+                 \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{        \PYZdq{}\PYZdq{}\PYZdq{}}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{classifiers} \PY{o}{=} \PY{p}{[}\PY{n}{ExtraTreesClassifier}\PY{p}{,}\PY{n}{GradientBoostingClassifier}\PY{p}{,}\PYZbs{}
+                 \PY{n}{RandomForestClassifier}\PY{p}{,}\PY{n}{AdaBoostClassifier}\PY{p}{,}\PY{n}{DecisionTreeClassifier}\PY{p}{]}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{mapping} \PY{o}{=} \PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Extra Tree}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Gradient Boosting}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Random Forest}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PYZbs{}
+                 \PY{l+s}{\PYZdq{}}\PY{l+s}{Ada Boost}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Decision Tree}\PY{l+s}{\PYZdq{}}\PY{p}{]}
+             
+             \PY{k}{def} \PY{n+nf}{feat\PYZus{}importance}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}\PY{p}{:}
+                 \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{        Compute the importance}
+         \PY{l+s+sd}{        :param X: a pandas DataFrame with features }
+         \PY{l+s+sd}{        :param Y: a pandas DataFrame with target values}
+         \PY{l+s+sd}{        :returns feature\PYZus{}importances: a numpy array ?}
+         \PY{l+s+sd}{        \PYZdq{}\PYZdq{}\PYZdq{}}
+                 
+                 \PY{n}{feature\PYZus{}importances} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+                 
+                 \PY{k}{for} \PY{n}{clf\PYZus{}n} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{classifiers}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                     \PY{n}{clf} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{classifiers}\PY{p}{[}\PY{n}{clf\PYZus{}n}\PY{p}{]}\PY{p}{(}\PY{p}{)}
+                     \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X}\PY{p}{,}\PY{n}{Y}\PY{p}{)}
+                     \PY{n}{imp\PYZus{}features} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{feature\PYZus{}importances\PYZus{}}
+                     \PY{n}{feature\PYZus{}importances}\PY{p}{[}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{mapping}\PY{p}{[}\PY{n}{clf\PYZus{}n}\PY{p}{]}\PY{p}{]} \PY{o}{=} \PY{n}{imp\PYZus{}features}
+                     
+                 \PY{k}{return} \PY{n}{feature\PYZus{}importances}
+         
+             
+             \PY{k}{def} \PY{n+nf}{plot\PYZus{}feat\PYZus{}importance}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{feat\PYZus{}impts}\PY{p}{)}\PY{p}{:}
+                 \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{        Plot the feature importance}
+         \PY{l+s+sd}{        :param feat\PYZus{}impts: Feature importance calculated by the estimator.}
+         \PY{l+s+sd}{        \PYZdq{}\PYZdq{}\PYZdq{}}
+                 \PY{n}{plot\PYZus{}nums} \PY{o}{=} \PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x} \PY{k}{if} \PY{n}{x} \PY{o}{/} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{0} \PY{k}{else} \PY{n+nb}{int}\PY{p}{(}\PY{p}{(}\PY{n}{x} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{2}\PY{p}{)}
+                 \PY{n}{pnums} \PY{o}{=} \PY{n}{plot\PYZus{}nums}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{feat\PYZus{}impts}\PY{p}{)}\PY{p}{)}
+                 \PY{n}{ax\PYZus{}index} \PY{o}{=} \PY{l+m+mi}{1}
+                 
+                 \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+                 
+         
+                 \PY{k}{for} \PY{n}{name\PYZus{}}\PY{p}{,}\PY{n}{importance} \PY{o+ow}{in} \PY{n}{feat\PYZus{}impts}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                     \PY{n}{indics} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argsort}\PY{p}{(}\PY{n}{importance}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{l+m+mi}{1}\PY{p}{]}
+                     \PY{n}{ax\PYZus{}name} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{)}
+                     \PY{n}{ax\PYZus{}name}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{name}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{ax\PYZus{}}\PY{l+s}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{ax\PYZus{}index}\PY{p}{)}
+                     \PY{n}{ax\PYZus{}name}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{name}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{pnums}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{ax\PYZus{}index}\PY{p}{)}
+                     \PY{n}{ax\PYZus{}name}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{name}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{indics}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{importance}\PY{p}{[}\PY{n}{indics}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{g}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+                     \PY{n}{ax\PYZus{}name}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{name}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xticks}\PY{p}{(}\PY{n}{indics}\PY{p}{)}
+                     \PY{n}{ax\PYZus{}name}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{name}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{indics}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+                     \PY{n}{ax\PYZus{}name}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{name}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Feature}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+                     \PY{n}{ax\PYZus{}name}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{name}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Importance}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+                     \PY{n}{ax\PYZus{}name}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{name}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{name\PYZus{}}\PY{p}{)}
+                     \PY{n}{ax\PYZus{}index} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                 
+                 \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+                 \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{iris} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/iris.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{Y} \PY{o}{=} \PY{n}{iris}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Class}\PY{l+s}{\PYZdq{}}\PY{p}{]}
+         \PY{n}{X} \PY{o}{=} \PY{n}{iris}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Class}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+         \PY{n}{fimp} \PY{o}{=} \PY{n}{CalculateFeatureImportance}\PY{p}{(}\PY{p}{)}
+         \PY{n}{cfimp} \PY{o}{=} \PY{n}{fimp}\PY{o}{.}\PY{n}{feat\PYZus{}importance}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}
+         \PY{n}{fimp}\PY{o}{.}\PY{n}{plot\PYZus{}feat\PYZus{}importance}\PY{p}{(}\PY{n}{cfimp}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/usr/local/lib/python2.7/dist-packages/matplotlib/backends/backend\_agg.py:517: DeprecationWarning: npy\_PyFile\_Dup is deprecated, use npy\_PyFile\_Dup2
+  filename\_or\_obj, self.figure.dpi)
+/usr/local/lib/python2.7/dist-packages/matplotlib/backends/backend\_agg.py:517: DeprecationWarning: npy\_PyFile\_Dup is deprecated, use npy\_PyFile\_Dup2
+  filename\_or\_obj, self.figure.dpi)
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{scikit_learn_feature_selection_files/scikit_learn_feature_selection_21_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{What just happened ?}
+
+The code has some level of abstraction. It is iterating fitting each
+estimators in the data with default parameters. Then the feature
+importance is plotted for visul examination. If we change the parameters
+for each estimator the result will vary. Try with a dataset with more
+attributes.
+
+\subsubsection{Closing Notes}
+
+The example given here is just for demonstration sake. You can use the
+code with diferent data set and check how it is afecting the
+classification/regaression/clustering accury. I will create a seperate
+note on how the accuracy is being improved with these tricks.
+
+Happy hacking !!!!
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
