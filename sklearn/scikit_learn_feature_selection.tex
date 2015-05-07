@@ -887,6 +887,73 @@ importance is plotted for visul examination. If we change the parameters
 for each estimator the result will vary. Try with a dataset with more
 attributes.
 
+\subsubsection{Combining Multiple Feature Selection (Feature Union)}
+
+Sklearn provides a handly utility to combine various feature selection
+techniques applied above. This is facilitated through the FeatureUnion
+API. Let's see how FeatureUnion is working.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+         
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.pipeline} \PY{k+kn}{import} \PY{n}{FeatureUnion}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.decomposition} \PY{k+kn}{import} \PY{n}{PCA}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn.feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{SelectKBest}
+         
+         
+         \PY{k}{def} \PY{n+nf}{feature\PYZus{}union}\PY{p}{(}\PY{n}{X}\PY{p}{,}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Apply feature union with PCA and SelectKBest}
+         \PY{l+s+sd}{    :param X: pandas DataFrame with attributes}
+         \PY{l+s+sd}{    :param y: pandas Series with target variable}
+         \PY{l+s+sd}{    :returns new\PYZus{}feats: pandas DataFrame with new features}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             
+             \PY{n}{pca} \PY{o}{=} \PY{n}{PCA}\PY{p}{(}\PY{n}{n\PYZus{}components}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+             \PY{n}{kbest} \PY{o}{=} \PY{n}{SelectKBest}\PY{p}{(}\PY{n}{k}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+             \PY{n}{f\PYZus{}union} \PY{o}{=} \PY{n}{FeatureUnion}\PY{p}{(}\PY{p}{[}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{pca}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{n}{pca}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{kbest}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{n}{kbest}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+             \PY{n}{selected\PYZus{}feat} \PY{o}{=} \PY{n}{f\PYZus{}union}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X}\PY{p}{,}\PY{n}{y}\PY{p}{)}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{X}\PY{p}{)}
+             
+             \PY{n}{new\PYZus{}feats} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{selected\PYZus{}feat}\PY{p}{)}
+             \PY{n}{new\PYZus{}feats}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{target}\PY{l+s}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{y}
+             
+             \PY{k}{return} \PY{n}{new\PYZus{}feats}
+         
+         \PY{n}{iris} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{/resources/iris.csv}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{Y} \PY{o}{=} \PY{n}{iris}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{Class}\PY{l+s}{\PYZdq{}}\PY{p}{]}
+         \PY{n}{X} \PY{o}{=} \PY{n}{iris}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Class}\PY{l+s}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+         \PY{n}{new\PYZus{}f} \PY{o}{=} \PY{n}{feature\PYZus{}union}\PY{p}{(}\PY{n}{X}\PY{p}{,}\PY{n}{Y}\PY{p}{)}
+         
+         \PY{n}{new\PYZus{}f}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}19}]:}           0         1    2  target
+         0 -2.237799 -0.296785  5.6       1
+         1  2.346082 -0.109259  1.6       0
+         2 -2.877376  0.472073  6.0       1
+         3  2.374624  0.205149  1.4       0
+         4 -2.583883  0.029046  5.6       1
+         
+         [5 rows x 4 columns]
+\end{Verbatim}
+        
+    \subparagraph{What just happened ?}
+
+Here in this example we have used Principal Component Analysis (PCA) and
+SelectKBest method together in a pipeline to select the features. The
+PCA selected 2 features and SelectKBest selected one feature; which is
+original one. Alltogether the pipe-line created a new dataset with three
+features. This method will return a new dataset with selected features
+not the scores.
+
+We can use the Grid Search hyper parameter tuning with L1 based feature
+selection in combination with FeatureUnion for better results. There are
+examples available in the sklearn documentation for the same too.
+
+I will explain PCA in a seperate note-book.
+
 \subsubsection{Closing Notes}
 
 The example given here is just for demonstration sake. You can use the
