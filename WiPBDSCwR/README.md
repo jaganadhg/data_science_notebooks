@@ -2,5 +2,5 @@
 
 Recently I was reading the book "Beginning Data Science with R". Inspired by the Will it Python project and to practice I decided to write the code in Python. This notebook is an attempt to achieve the same.
 
-- Chapter 5 Exploratory Data Analysis 
+- Chapter 5 Exploratory Data Analysis http://nbviewer.ipython.org/github/jaganadhg/data_science_notebooks/blob/master/WiPBDSCwR/CH5.ipynb  
 
